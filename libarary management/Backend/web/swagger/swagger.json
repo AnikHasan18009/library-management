@@ -1,0 +1,136 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Ecomm Service",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:11111",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": [
+          "REST API"
+        ],
+        "summary": "Signup User",
+        "description": "Endpoint for user signup.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User account created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessfulSignUpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "SignUp Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestSignUpResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SignUp Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorSignUpResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SuccessfulSignUpResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Success! OTP sent to your email"
+          },
+          "userData": {
+            "$ref": "#/components/schemas/NewUser"
+          }
+        }
+      },
+      "ServerErrorSignUpResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "error sending otp"
+          },
+          "userData": {
+            "$ref": "#/components/schemas/NewUser"
+          }
+        }
+      },
+      "BadRequestSignUpResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": "false"
+          },
+          "message": {
+            "type": "string",
+            "example": "previous otp hasn't expired"
+          },
+          "userData": {
+            "$ref": "#/components/schemas/NewUser"
+          }
+        }
+      },
+      "NewUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Anik Hasan"
+          },
+          "email": {
+            "type": "string",
+            "example": "anikhasan1@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "anikHasan777777",
+            "description": "Should have atleast 8 characters"
+          }
+        }
+      }
+    }
+  }
+}
